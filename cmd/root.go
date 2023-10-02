@@ -1,11 +1,12 @@
 /*
-Copyright © 2023 JUAN
+Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 
 */
 package cmd
 
 import (
 	"os"
+
 	"github.com/spf13/cobra"
 )
 
