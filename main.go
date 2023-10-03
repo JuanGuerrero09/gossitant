@@ -7,19 +7,20 @@ import (
 	"bufio"
 	"fmt"
 	"mycli/cmd"
+	"mycli/utils"
 	"os"
 	"strconv"
+	"time"
 )
 
-type task struct {
-	name string
-	description string
-	completed bool
-}
+
+
+
+
 
 func main() {
 	cmd.Execute()
-	tasks := make(map[int]task)
+	tasks := utils.TaskList {}
 	// lastId := 0
 
 	for {
@@ -37,13 +38,23 @@ func main() {
 		
 		switch choice {
 		case 1:
-			if len(tasks) == 0 {
+			if len(tasks.GetTaskList()) == 0 {
 				fmt.Println("No hay tareas disponibles")
 			}
-			newTask := bufio.NewScanner(os.Stdin)
 			fmt.Print("The new task is: ")
-			fmt.Println(newTask.Scan())
 		case 2:
+			fmt.Print("Agregue nueva tarea:...")
+			scanner := bufio.NewScanner(os.Stdin)
+			scanner.Scan()
+			newTask := utils.Task {
+				TaskDescription: scanner.Text(),
+				Completed: false,
+				Date: time.Now().Format("2006-01-02"),
+			}
+			fmt.Println(newTask)
+			tasks.AddTask(newTask)
+
+
 		case 3:
 		case 4:
 		case 5:
