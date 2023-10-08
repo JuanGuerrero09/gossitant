@@ -7,10 +7,7 @@ import (
 	"bufio"
 	"fmt"
 	"mycli/cmd"
-	"mycli/utils"
 	"os"
-	"strconv"
-	"time"
 )
 
 
@@ -18,50 +15,44 @@ import (
 
 
 
-func main() {
-	cmd.Execute()
-	tasks := utils.TaskList {}
-	// lastId := 0
-
-	for {
-		fmt.Println("Select option")
-		fmt.Println("1. Ver tareas")
-		fmt.Println("2. Agregar tareas")
-		fmt.Println("3. Marcar como completada")
-		fmt.Println("4. Eliminar tarea")
-		fmt.Println("5. Salir")
-		fmt.Print("Opción: ")
-
-		scanner := bufio.NewScanner(os.Stdin)
-		scanner.Scan()
-		choice, _ :=strconv.Atoi(scanner.Text())
-		
-		switch choice {
-		case 1:
-			if len(tasks.GetTaskList()) == 0 {
-				fmt.Println("No hay tareas disponibles")
-			}
-			fmt.Print("The new task is: ")
-		case 2:
-			fmt.Print("Agregue nueva tarea:...")
-			scanner := bufio.NewScanner(os.Stdin)
-			scanner.Scan()
-			newTask := utils.Task {
-				TaskDescription: scanner.Text(),
-				Completed: false,
-				Date: time.Now().Format("2006-01-02"),
-			}
-			fmt.Println(newTask)
-			tasks.AddTask(newTask)
-
-
-		case 3:
-		case 4:
-		case 5:
-			fmt.Println("Saliendo...")
-			os.Exit(0)
-		}
-
+	func check(e error) {
+		if e != nil {
+			panic(e)
+    }
 	}
 	
+	func main() {
+	cmd.Execute()
+
+    d1 := []byte("hello\ngo\n")
+		fmt.Println(d1)
+    err := os.WriteFile("/tmp/dat1", d1, 0644)
+    check(err)
+		
+    f, err := os.Create("/tmp/dat2")
+		fmt.Println(f)
+    check(err)
+		
+    defer f.Close()
+		
+    d2 := []byte{115, 111, 109, 101, 10}
+		fmt.Println(d2)
+    n2, err := f.Write(d2)
+		fmt.Println(n2)
+    check(err)
+    fmt.Printf("wrote %d bytes\n", n2)
+
+    n3, err := f.WriteString("writes\n")
+    check(err)
+    fmt.Printf("wrote %d bytes\n", n3)
+
+    f.Sync()
+
+    w := bufio.NewWriter(f)
+    n4, err := w.WriteString("buffered\n")
+    check(err)
+    fmt.Printf("wrote %d bytes\n", n4)
+
+    w.Flush()
+
 }

@@ -11,8 +11,10 @@ type Task struct {
 	Date string
 }
 
+
 type TaskList struct {
 	list []Task
+	Type string
 }
 
 

@@ -5,8 +5,9 @@ package cmd
 
 import (
 	"fmt"
-	"mycli/utils"
+	// "mycli/utils"
 	"github.com/spf13/cobra"
+	"github.com/cli/browser"
 )
 
 // pmbaCmd represents the pmba command
@@ -21,7 +22,8 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		urls := []string{"https://pkg.go.dev/os/exec", "https://pkg.go.dev/os/"}
-		utils.Open(urls)
+		// utils.Open(urls)
+		browser.OpenURL(urls[0])
 		fmt.Println("pmba called")
 	},
 }

@@ -4,13 +4,14 @@ import (
 	"testing"
 )
 
+var taskList = TaskList{
+	list: []Task{
+		{TaskDescription: "Tarea 1", Completed: false, Date: "2023-10-03"},
+		{TaskDescription: "Tarea 2", Completed: true, Date: "2023-10-04"},
+	},
+}
+
 func TestAddTask(t *testing.T) {
-	taskList := TaskList{
-		list: []Task{
-			{TaskDescription: "Tarea 1", Completed: false, Date: "2023-10-03"},
-			{TaskDescription: "Tarea 2", Completed: true, Date: "2023-10-04"},
-		},
-	}
 	task := Task{
 		TaskDescription: "Tarea 3",
 		Completed:       false,
@@ -18,7 +19,6 @@ func TestAddTask(t *testing.T) {
 	}
 	taskList.AddTask(task)
 	got := taskList.ReadTask(2)
-
 	want := TaskList{
 		list: []Task{
 			{TaskDescription: "Tarea 1", Completed: false, Date: "2023-10-03"},
@@ -30,8 +30,21 @@ func TestAddTask(t *testing.T) {
 			},
 		},
 	}.list[2]
-
 	if got != want {
 		t.Errorf("got %v want %v", got, want)
+	}
+}
+
+func TestDeleteTask(t *testing.T) {
+	taskList.DeleteTask(0)
+	got := taskList.GetTaskList()[0]
+	want := TaskList {
+		list: []Task {
+			{TaskDescription: "Tarea 2", Completed: true, Date: "2023-10-04"},
+		},
+	}.list[0]
+	
+	if got != want {
+		t.Errorf("got %v, want %v", got, want)
 	}
 }

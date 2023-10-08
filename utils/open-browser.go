@@ -9,7 +9,6 @@ import (
 
 func Open(urls []string) error {
   var osConfig string
-	fmt.Println(runtime.GOOS)
 	switch runtime.GOOS{
 	case "linux":
     osConfig = "sensible-browser"
