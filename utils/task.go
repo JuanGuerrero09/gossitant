@@ -1,12 +1,11 @@
 package utils
 
 import (
-	"fmt"
-	// "time"
+	"time"
 )
 
 type Task struct {
-	TaskDescription string
+	TaskName string
 	Completed bool
 	Date string
 }
@@ -15,6 +14,19 @@ type Task struct {
 type TaskList struct {
 	list []Task
 	Type string
+}
+
+func CreateTaskList() TaskList {
+	return TaskList{}
+}
+
+func CreateTask(TaskName string) Task {
+	task := Task {
+		TaskName: TaskName,
+		Completed: false,
+		Date: time.Now().Format("2006-01-02"),
+	}
+	return task
 }
 
 
@@ -32,19 +44,17 @@ func (t *TaskList) AddTask(task Task) *TaskList {
 }
 
 func (t *TaskList) DeleteTask(i int) *TaskList {
+	t.list = append(t.list[:i],t.list[i+1:]... )
 	return t
 }
 
 func (t *TaskList) EditTask(i int, text string) *TaskList {
+	t.list[i].TaskName = text
 	return t
 }
 
 func (t *TaskList) ToggleCompleteTask(i int) *TaskList{
 	t.list[i].Completed = !t.list[i].Completed
 	return t
-}
-
-func tasks(){
-	fmt.Println("Hola mundo")
 }
 

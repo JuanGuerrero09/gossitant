@@ -14,17 +14,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type task struct {
-	taskDescription string
-	completed bool
-	date string
-}
-
-
 
 // newTaskCmd represents the newTask command
 var newTaskCmd = &cobra.Command{
-	Use:   "nt",
+	Use:   "task",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -33,10 +26,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 Run: func(cmd *cobra.Command, args []string) {
-	fmt.Println("newTask called")
 	tasks := utils.TaskList {}
-	// lastId := 0
-	fmt.Println("im here")
 	
 	for {
 		fmt.Println("Select option")
@@ -62,13 +52,12 @@ Run: func(cmd *cobra.Command, args []string) {
 			scanner := bufio.NewScanner(os.Stdin)
 			scanner.Scan()
 			newTask := utils.Task {
-				TaskDescription: scanner.Text(),
+				TaskName: scanner.Text(),
 				Completed: false,
 				Date: time.Now().Format("2006-01-02"),
 			}
 			fmt.Println(newTask)
 			tasks.AddTask(newTask)
-	
 	
 		case 3:
 		case 4:

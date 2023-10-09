@@ -6,14 +6,14 @@ import (
 
 var taskList = TaskList{
 	list: []Task{
-		{TaskDescription: "Tarea 1", Completed: false, Date: "2023-10-03"},
-		{TaskDescription: "Tarea 2", Completed: true, Date: "2023-10-04"},
+		{TaskName: "Tarea 1", Completed: false, Date: "2023-10-03"},
+		{TaskName: "Tarea 2", Completed: true, Date: "2023-10-04"},
 	},
 }
 
 func TestAddTask(t *testing.T) {
 	task := Task{
-		TaskDescription: "Tarea 3",
+		TaskName: "Tarea 3",
 		Completed:       false,
 		Date:            "01-03-2022",
 	}
@@ -21,10 +21,10 @@ func TestAddTask(t *testing.T) {
 	got := taskList.ReadTask(2)
 	want := TaskList{
 		list: []Task{
-			{TaskDescription: "Tarea 1", Completed: false, Date: "2023-10-03"},
-			{TaskDescription: "Tarea 2", Completed: true, Date: "2023-10-04"},
+			{TaskName: "Tarea 1", Completed: false, Date: "2023-10-03"},
+			{TaskName: "Tarea 2", Completed: true, Date: "2023-10-04"},
 			{
-				TaskDescription: "Tarea 3",
+				TaskName: "Tarea 3",
 				Completed:       false,
 				Date:            "01-03-2022",
 			},
@@ -40,7 +40,7 @@ func TestDeleteTask(t *testing.T) {
 	got := taskList.GetTaskList()[0]
 	want := TaskList {
 		list: []Task {
-			{TaskDescription: "Tarea 2", Completed: true, Date: "2023-10-04"},
+			{TaskName: "Tarea 2", Completed: true, Date: "2023-10-04"},
 		},
 	}.list[0]
 	
