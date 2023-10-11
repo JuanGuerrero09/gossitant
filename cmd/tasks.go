@@ -7,7 +7,7 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/spf13/cobra"
-	"mycli/utils"
+	"mycli/utils/task"
 	"os"
 	"strconv"
 )
@@ -23,8 +23,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		tasks := utils.CreateTaskList()
-
+		tasks := task.CreateTaskList()
 		for {
 			fmt.Println("Select option")
 			fmt.Println("1. Ver tareas")
@@ -49,7 +48,7 @@ to quickly create a Cobra application.`,
 				scanner := bufio.NewScanner(os.Stdin)
 				scanner.Scan()
 				taskName := scanner.Text()
-				newTask := utils.CreateTask(taskName)
+				newTask := task.CreateTask(taskName)
 				fmt.Println(newTask)
 				tasks.AddTask(newTask)
 
