@@ -22,45 +22,50 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		tasks := utils.CreateTaskList()
-
-		for {
-			fmt.Println("Select option")
-			fmt.Println("1. Ver tareas")
-			fmt.Println("2. Agregar tareas")
-			fmt.Println("3. Marcar como completada")
-			fmt.Println("4. Eliminar tarea")
-			fmt.Println("5. Salir")
-			fmt.Print("Opción: ")
-
+Run: func(cmd *cobra.Command, args []string) {
+	tasks := utils.TaskList {}
+	
+	for {
+		fmt.Println("Select option")
+		fmt.Println("1. Ver tareas")
+		fmt.Println("2. Agregar tareas")
+		fmt.Println("3. Editar tarea")
+		fmt.Println("4. Marcar como completada")
+		fmt.Println("5. Eliminar tarea")
+		fmt.Println("6. Salir")
+		fmt.Print("Opción: ")
+	
+		scanner := bufio.NewScanner(os.Stdin)
+		scanner.Scan()
+		choice, _ :=strconv.Atoi(scanner.Text())
+		
+		switch choice {
+		case 1:
+			if len(tasks.GetTaskList()) == 0 {
+				fmt.Println("No hay tareas disponibles")
+			}
+			fmt.Println("The existent task are: ")
+		case 2:
+			fmt.Print("Agregue nueva tarea:...")
 			scanner := bufio.NewScanner(os.Stdin)
 			scanner.Scan()
-			choice, _ := strconv.Atoi(scanner.Text())
-
-			switch choice {
-			case 1:
-				if len(tasks.GetTaskList()) == 0 {
-					fmt.Println("No hay tareas disponibles")
-				}
-				fmt.Print("The new task is: ")
-			case 2:
-				fmt.Print("Agregue nueva tarea:...")
-				scanner := bufio.NewScanner(os.Stdin)
-				scanner.Scan()
-				taskName := scanner.Text()
-				newTask := utils.CreateTask(taskName)
-				fmt.Println(newTask)
-				tasks.AddTask(newTask)
-
-			case 3:
-			case 4:
-			case 5:
-				fmt.Println("Saliendo...")
-				os.Exit(0)
+			newTask := utils.Task {
+				TaskName: scanner.Text(),
+				Completed: false,
+				Date: time.Now().Format("2006-01-02"),
 			}
-
+			fmt.Println(newTask)
+			tasks.AddTask(newTask)
+	
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+			fmt.Println("Saliendo...")
+			os.Exit(0)
 		}
+	
+	}
 	},
 }
 

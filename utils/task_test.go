@@ -39,8 +39,22 @@ func TestDeleteTask(t *testing.T) {
 			{TaskName: "Tarea 2", Completed: true, Date: "2023-10-04"},
 		},
 	}.list[0]
-
 	if got != want {
 		t.Errorf("got %v, want %v", got, want)
 	}
 }
+
+
+func TestCompleteTask(t *testing.T) {
+	taskList.ToggleCompleteTask(0)
+	got := taskList.ReadTask(0)
+	want := TaskList{
+		list: []Task{
+			{TaskName: "Tarea 2", Completed: false, Date: "2023-10-04"},
+		},
+	}.list[0]
+	if got != want {
+			t.Errorf("got %v, want %v", got, want)
+		}
+	}
+	
