@@ -4,57 +4,54 @@ import (
 	"time"
 )
 
-type Task struct {
-	TaskName string
+type task struct {
+	TaskName  string
 	Completed bool
-	Date string
+	Date      string
 }
 
-
-type TaskList struct {
-	list []Task
+type taskList struct {
+	list []task
 	Type string
 }
 
-func CreateTaskList() TaskList {
-	return TaskList{}
+func CreateTaskList() taskList {
+	return taskList{}
 }
 
-func CreateTask(TaskName string) Task {
-	task := Task {
-		TaskName: TaskName,
+func CreateTask(TaskName string) task {
+	task := task{
+		TaskName:  TaskName,
 		Completed: false,
-		Date: time.Now().Format("2006-01-02"),
+		Date:      time.Now().Format("2006-01-02"),
 	}
 	return task
 }
 
-
-func (t *TaskList) ReadTask(i int) Task {
+func (t *taskList) ReadTask(i int) task {
 	return t.list[i]
 }
 
-func (t *TaskList) GetTaskList() []Task {
+func (t *taskList) GetTaskList() []task {
 	return t.list
 }
 
-func (t *TaskList) AddTask(task Task) *TaskList {
-	t.list = append(t.list, task)
+func (t *taskList) AddTask(tk task) *taskList {
+	t.list = append(t.list, tk)
 	return t
 }
 
-func (t *TaskList) DeleteTask(i int) *TaskList {
-	t.list = append(t.list[:i],t.list[i+1:]... )
+func (t *taskList) DeleteTask(i int) *taskList {
+	t.list = append(t.list[:i], t.list[i+1:]...)
 	return t
 }
 
-func (t *TaskList) EditTask(i int, text string) *TaskList {
+func (t *taskList) EditTask(i int, text string) *taskList {
 	t.list[i].TaskName = text
 	return t
 }
 
-func (t *TaskList) ToggleCompleteTask(i int) *TaskList{
+func (t *taskList) ToggleCompleteTask(i int) *taskList {
 	t.list[i].Completed = !t.list[i].Completed
 	return t
 }
-
