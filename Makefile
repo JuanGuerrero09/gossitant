@@ -1,2 +1,5 @@
+tasks:
+	@/usr/local/go/bin/go run main.go task
+
 test:
-	go test ./utils/...
+	@/usr/local/go/bin/go test ./utils/...

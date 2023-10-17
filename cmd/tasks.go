@@ -6,10 +6,12 @@ package cmd
 import (
 	"bufio"
 	"fmt"
-	"github.com/spf13/cobra"
 	"mycli/utils/task"
 	"os"
 	"strconv"
+	"strings"
+
+	"github.com/spf13/cobra"
 )
 
 // newTaskCmd represents the newTask command
@@ -22,49 +24,89 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-Run: func(cmd *cobra.Command, args []string) {
-	tasks := task.CreateTaskList()
+	Run: func(cmd *cobra.Command, args []string) {
+		tasks := task.CreateTaskList()
 		for {
-		fmt.Println("Select option")
-		fmt.Println("1. Ver tareas")
-		fmt.Println("2. Agregar tareas")
-		fmt.Println("3. Editar tarea")
-		fmt.Println("4. Marcar como completada")
-		fmt.Println("5. Eliminar tarea")
-		fmt.Println("6. Salir")
-		fmt.Print("Opción: ")
-	
-		scanner := bufio.NewScanner(os.Stdin)
-		scanner.Scan()
-		choice, _ :=strconv.Atoi(scanner.Text())
-		
-		switch choice {
-		case 1:
-			if len(tasks.GetTaskList()) == 0 {
-				fmt.Println("No hay tareas disponibles")
+			fmt.Println("Select option")
+			fmt.Println("1. Ver tareas")
+			fmt.Println("2. Agregar tareas")
+			fmt.Println("3. Editar tarea")
+			fmt.Println("4. Marcar como completada")
+			fmt.Println("5. Eliminar tarea")
+			fmt.Println("6. Salir")
+			fmt.Print("Opción: ")
+
+			existentFile, err := os.Create("taskList.csv")
+			if err != nil {
+				panic(err)
 			}
-			fmt.Println("The existent task are: ")
-		case 2:
-			fmt.Print("Agregue nueva tarea:...")
+
+			
+
 			scanner := bufio.NewScanner(os.Stdin)
 			scanner.Scan()
-			newTask := task.Task {
-				TaskName: scanner.Text(),
-				Completed: false,
-				Date: time.Now().Format("2006-01-02"),
+			choice, _ := strconv.Atoi(scanner.Text())
+
+			switch choice {
+			case 1:
+				if len(tasks.GetTaskList()) == 0 {
+					fmt.Println("No hay tareas disponibles")
+				}
+				fmt.Println("The existent task are: ")
+				for i, task := range tasks.GetTaskList() {
+					fmt.Println(i+1, task.TaskName)
+				}
+				fmt.Println(tasks)
+			case 2:
+				fmt.Print("Agregue nueva tarea:...")
+				scanner := bufio.NewScanner(os.Stdin)
+				scanner.Scan()
+				newTask := task.CreateTask(scanner.Text())
+				fmt.Println(newTask)
+				tasks.AddTask(newTask)
+			case 3:
+				fmt.Println("Seleccione el índice de la tarea que desea editar")
+				scanner := bufio.NewScanner(os.Stdin)
+				scanner.Scan()
+				index, err := strconv.Atoi(scanner.Text())
+				if err != nil {
+					fmt.Println("There was a problem with the index")
+				}
+				fmt.Println("Inserte el cambio de la tarea")
+				scannerText := bufio.NewScanner(os.Stdin)
+				scannerText.Scan()
+				tasks.EditTask(index, scannerText.Text())
+				fmt.Printf("Task number %v, changed to: %s\n", index, scannerText.Text())
+			case 4:
+				fmt.Println("Seleccione el índice de la tarea que desea marcar como completar")
+				scanner := bufio.NewScanner(os.Stdin)
+				scanner.Scan()
+				index, err := strconv.Atoi(scanner.Text())
+				if err != nil {
+					fmt.Println("There was a problem with the index")
+				}
+				tasks.ToggleCompleteTask(index)
+			case 5:
+				fmt.Println("Guardando en txt....")
+				newFile, err := os.Create("taskList.csv")
+				if err != nil {
+					panic(err)
+				}
+
+				for _, task := range tasks.GetTaskList() {
+					strArr := make([]string, 0)
+					strArr = append(strArr, task.TaskName, strconv.FormatBool(task.Completed), task.Date)
+					str := strings.Join(strArr, ",")
+					newFile.WriteString(str + "\n")
+				}
+
+				defer newFile.Close()
+			case 6:
+				fmt.Println("Saliendo...")
+				os.Exit(0)
 			}
-			fmt.Println(newTask)
-			tasks.AddTask(newTask)
-	
-		case 3:
-		case 4:
-		case 5:
-		case 6:
-			fmt.Println("Saliendo...")
-			os.Exit(0)
+
 		}
-	
-	}
 	},
 }
 

@@ -46,10 +46,10 @@ func TestDeleteTask(t *testing.T) {
 
 
 func TestCompleteTask(t *testing.T) {
-	taskList.ToggleCompleteTask(0)
-	got := taskList.ReadTask(0)
-	want := TaskList{
-		list: []Task{
+	newTaskList.ToggleCompleteTask(0)
+	got := newTaskList.ReadTask(0)
+	want := taskList{
+		list: []task{
 			{TaskName: "Tarea 2", Completed: false, Date: "2023-10-04"},
 		},
 	}.list[0]
