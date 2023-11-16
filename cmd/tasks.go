@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"bufio"
+	"encoding/csv"
 	"fmt"
 	"mycli/utils/task"
 	"os"
@@ -36,12 +37,29 @@ to quickly create a Cobra application.`,
 			fmt.Println("6. Salir")
 			fmt.Print("Opción: ")
 
-			existentFile, err := os.Create("taskList.csv")
+			existentFile, err := os.Open("taskList.csv")
+			if err != nil {
+				existentFile, _ = os.Create("taskList.csv")
+			}
+
+			defer existentFile.Close()
+
+			reader := csv.NewReader(existentFile)
+
+			text, err := reader.ReadAll()
+
 			if err != nil {
 				panic(err)
 			}
 
-			
+			for _, line := range text {
+				fmt.Println(line)
+			}
+
+			fmt.Println("Those were the tasks")
+
+
+
 
 			scanner := bufio.NewScanner(os.Stdin)
 			scanner.Scan()
